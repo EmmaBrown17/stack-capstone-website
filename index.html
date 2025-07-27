@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack - Empowering Student Exploration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2d3748;
+        }
+        
+        .research-timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: slideIn 0.8s ease-out forwards;
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.6s; }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            margin: 0 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .timeline-marker {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .prototype-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .prototype-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .prototype-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .prototype-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .prototype-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        
+        .prototype-card p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        
+        .key-finding {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .insight-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .insight-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-member {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .stats-section {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: white;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        .quote-highlight {
+            background: #f0f4f8;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .quote-highlight::before {
+            content: '"';
+            font-size: 4rem;
+            color: #667eea;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+            }
+            
+            .timeline-item:nth-child(even) {
+                flex-direction: column !important;
+            }
+            
+            .timeline-marker {
+                margin: 0 auto 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo">Stack</div>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#prototypes">Prototypes</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Stack</h1>
+                <p class="subtitle">Empowering South Fayette students to explore their academic journey with curiosity, confidence, and personalized support through intelligent guidance and reflection.</p>
+                <a href="#overview" class="cta-button">Explore Our Process</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.2rem; color: #4a5568; margin-bottom: 2rem;">
+                    This MHCI Capstone project reimagines student exploration by addressing a key challenge: 
+                    <strong>How can we give students agency over their educational path?</strong> Through comprehensive 
+                    stakeholder interviews, extensive prototyping, and iterative testing, our team designed Stack - 
+                    an intelligent support system that transforms how students, families, and faculty navigate high school.
+                </p>
+                <div class="quote-highlight">
+                    Students have motivation and support to self-reflect, but they need help getting started and knowing what to reflect on.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="section-title">Research Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <p>Parallel Prototypes Tested</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <p>Stakeholder Interviews</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <p>Key Stakeholder Groups</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <p>Major Design Iterations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" class="section" style="background: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Our Research Journey</h2>
+            <div class="research-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Problem Discovery & Stakeholder Interviews</h3>
+                        <p>We began by conducting extensive interviews with students, parents, teachers, and guidance counselors to understand the current challenges in academic exploration and decision-making.</p>
+                        <div class="key-finding">
+                            <strong>Key Finding:</strong> Students want to explore but often don't know where to start or how their choices connect to future opportunities.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Parallel Prototyping (12 Prototypes)</h3>
+                        <p>We tested diverse concepts including AI recommendation systems, failure reflection cards, skill visualization tools, and gamified exploration platforms to understand what resonated with users.</p>
+                        <div class="key-finding">
+                            <strong>Key Finding:</strong> Students respond positively to gamification and peer connection, but need something that feels different from existing RIASEC assessments.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Concept Consolidation & Vision Alignment</h3>
+                        <p>Through collaborative exercises and individual visualizations, we converged on five core system components: collaboration, guided freedom, opportunity awareness, embracing uncertainty, and connecting actions to outcomes.</p>
+                        <div class="key-finding">
+                            <strong>Key Finding:</strong> Low-risk environments support exploration - students are more likely to try new things when there's no fear of failure.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Iterative Design & User Testing</h3>
+                        <p>We developed higher-fidelity prototypes focusing on user flow, visualization methods, reflection processes, and stakeholder communication features.</p>
+                        <div class="key-finding">
+                            <strong>Key Finding:</strong> Information needs concrete context - it's not enough to present opportunities without explaining why they might be relevant.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prototypes" class="section">
+        <div class="container">
+            <h2 class="section-title">Key Prototypes & Learnings</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #4a5568; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Our parallel prototyping phase tested 12 distinct concepts, each addressing different aspects of student exploration and decision-making. Here are some of the most impactful prototypes:
+            </p>
+            
+            <div class="prototype-grid">
+                <div class="prototype-card">
+                    <div class="prototype-number">1</div>
+                    <h3>AI Recommendation Trust System</h3>
+                    <p>Tested whether students trust AI-generated academic recommendations as much as human guidance.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Students rated AI recommendations equally to human ones (3.95 vs 3.8 out of 5), showing willingness to trust intelligent systems.
+                    </div>
+                    <div class="quote-highlight">
+                        "The recommendations are dead on" - Parent participant
+                    </div>
+                </div>
+
+                <div class="prototype-card">
+                    <div class="prototype-number">2</div>
+                    <h3>Failure Reflection Cards</h3>
+                    <p>Explored whether students can learn growth mindset through peer stories of failure and recovery.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Motivation after setbacks increased from 3.6 to 4.2, with students finding peer stories highly relatable and normalizing.
+                    </div>
+                    <div class="quote-highlight">
+                        "I'll feel more confident in myself when taking tests" - Student participant
+                    </div>
+                </div>
+
+                <div class="prototype-card">
+                    <div class="prototype-number">7</div>
+                    <h3>Campaign Craft (RPG Platform)</h3>
+                    <p>Gamified skill building through quest-based learning experiences with collaborative elements.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Students were more motivated to join group activities when requests felt specific to their skills, and valued competitive elements.
+                    </div>
+                    <div class="quote-highlight">
+                        "If you make it a ranking system or leaderboard, that competitive nature would help increase engagement" - Student participant
+                    </div>
+                </div>
+
+                <div class="prototype-card">
+                    <div class="prototype-number">4</div>
+                    <h3>Ikigai Identity Cards</h3>
+                    <p>Used Japanese concept of "reason for being" to help students reflect on identity through four key domains.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Students thought about strengths in new ways and found the process more grounded than traditional career assessments.
+                    </div>
+                    <div class="quote-highlight">
+                        "This made me feel like my hobbies are actually skills" - Student participant
+                    </div>
+                </div>
+
+                <div class="prototype-card">
+                    <div class="prototype-number">9</div>
+                    <h3>Imposter Syndrome Workshop</h3>
+                    <p>Paired vulnerability exercise where students challenged each other's inner critic through peer validation.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Students felt less alone and more connected, with peer validation proving powerful for disrupting negative self-talk.
+                    </div>
+                    <div class="quote-highlight">
+                        "I thought I was the only one who felt that way, but I wasn't" - Student participant
+                    </div>
+                </div>
+
+                <div class="prototype-card">
+                    <div class="prototype-number">12</div>
+                    <h3>Tower Town (Stakeholder Collaboration)</h3>
+                    <p>Explored gamified community collaboration between students, parents, teachers, and guidance counselors.</p>
+                    <div class="key-finding">
+                        <strong>Result:</strong> Different stakeholders play distinct roles - parents offer support, teachers provide focus, counselors create actionable plans.
+                    </div>
+                    <div class="quote-highlight">
+                        "Student-led and needs-based... hitting that perfect zone where students want to develop more but can't do it without adult guidance" - Teacher participant
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="insights" class="section" style="background: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Key Insights & Design Implications</h2>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>🎯 Guided Reflection is Essential</h3>
+                    <p>Students value reflection but don't know how to begin. Our system needs to provide prompts and interactive elements that help students clarify their thoughts and initiate meaningful self-discovery.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <h3>🎮 Gamification + Social Connection Drive Engagement</h3>
+                    <p>Students responded exceptionally well to prototypes with gamified aspects and peer interaction. Vulnerability felt safer when it came from peers, and competition motivated exploration.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <h3>🛡️ Low-Risk Environments Support Exploration</h3>
+                    <p>Students are more likely to try new things when there's no fear of failure or long-term commitment. Our solution needs to lower barriers to experimentation.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <h3>🔄 Beyond RIASEC</h3>
+                    <p>Stakeholders want something that feels different from existing personality assessments. Our solution can't just be a reskin - it needs to offer genuinely new value and approaches.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <h3>📱 Dynamic & Personalized Systems</h3>
+                    <p>The system needs to evolve with students, updating to their changing skills and interests. Static recommendations feel irrelevant; dynamic, personalized guidance builds trust.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <h3>🤝 Stakeholder Collaboration</h3>
+                    <p>Different stakeholders play unique roles: parents provide support and start conversations, teachers help narrow focus, and counselors create actionable plans. Our system should facilitate these distinct contributions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="section">
+        <div class="container">
+            <h2 class="section-title">Meet Team Short Stack</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #4a5568; margin-bottom: 3rem;">
+                Our diverse team brought together complementary skills in research, design, and technology to deliver a comprehensive solution for South Fayette High School.
+            </p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">AC</div>
+                    <h3>Allison Chu</h3>
+                    <p>UX Research & Design</p>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Led user research initiatives and prototype testing</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">EB</div>
+                    <h3>Emma Brown</h3>
+                    <p>Interaction Design</p>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Focused on user experience and interface design</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">KU</div>
+                    <h3>Katie Ulinski</h3>
+                    <p>Research & Strategy</p>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Coordinated stakeholder engagement and strategic direction</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">LF</div>
+                    <h3>Lana Farkas</h3>
+                    <p>Design & Development</p>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Led visual design and technical implementation</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">SY</div>
+                    <h3>Sarah Yun</h3>
+                    <p>User Research</p>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Conducted in-depth user interviews and analysis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 2rem;">Ready to Explore?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                See how Stack transforms student exploration and academic decision-making
+            </p>
+            <a href="#" class="cta-button" style="margin-right: 1rem;">View Final Prototype</a>
+            <a href="#" class="cta-button">Read Full Research Report</a>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all prototype cards and insight cards
+        document.querySelectorAll('.prototype-card, .insight-card, .team-member').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6
